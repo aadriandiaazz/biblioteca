@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-// 1. IMPORTA EL ENRUTADOR DE LIBROS AQUÍ ABAJO:
+// 1. IMPORTA EL ENRUTADOR AQUÍ ABAJO:
 import librosRouter from "./routes/biblioteca.routes.js"; 
  
 const app = express();
@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
   res.json({ estado: "ok", servicio: "biblioteca-api" });
 });
  
-// 2. ACTIVA LAS RUTAS PARA QUE EXPRESS LAS DETECTE:
+// 2. CONECTA EL PREFIJO /api/libros CON TU ENRUTADOR:
 app.use("/api/libros", librosRouter);
  
 app.use((err, req, res, next) => {     
