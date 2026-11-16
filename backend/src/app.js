@@ -1,5 +1,9 @@
 import express from "express";
 import cors from "cors";
+import { PrismaClient } from "../generated/prisma/index.js";
+
+const prisma = new PrismaClient();
+
 // 1. IMPORTA EL ENRUTADOR AQUÍ ABAJO:
 import librosRouter from "./routes/biblioteca.routes.js"; 
  

@@ -1,16 +1,30 @@
-import { PrismaClient } from "@prisma/client";
+import pkg from '../generated/prisma/index.js';
+const { PrismaClient } = pkg;
+
 const prisma = new PrismaClient();
- 
+
 async function main() {
-  const autor = await prisma.autor.upsert({
+  const libro = await prisma.Libro.upsert({
     where: { id: 1 },
     update: {},
-    create: { id: 1, nombre: "George Orwell" },
+    create: {
+      titulo: "Ejemplo de Libro",
+      descripcion: "Una descripción opcional",
+      autor: "Nombre del Autor Aquí",
+      editorial: "Nombre Editorial",
+      reservado: false,
+      anioPublicacion: 2024
+    },
   });
-  await prisma.libro.upsert({
-    where: { id: 1 },
-    update: {},
-    create: { id: 1, titulo: "1984", anio: 1949, autorId: autor.id },
-  });
+
+  console.log("Base de datos poblada con éxito:", libro);
 }
-main().finally(() => prisma.$disconnect());
+
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

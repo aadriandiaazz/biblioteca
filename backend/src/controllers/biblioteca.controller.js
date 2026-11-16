@@ -22,7 +22,8 @@ export async function listarLibros(req, res) {
       filtro.autor = { contains: autor.trim() };
     }
 
-    const libros = await prisma.libro.findMany({
+    // Cambiado de prisma.libro a prisma.Libro
+    const libros = await prisma.Libro.findMany({
       where: filtro,
       orderBy: { id: "asc" }
     });
@@ -41,7 +42,8 @@ export async function obtenerLibro(req, res) {
       return res.status(400).json({ error: "El id debe ser un numero entero" });
     }
 
-    const libro = await prisma.libro.findUnique({ where: { id } });
+    // Cambiado de prisma.libro a prisma.Libro
+    const libro = await prisma.Libro.findUnique({ where: { id } });
 
     if (!libro) {
       return res.status(404).json({ error: "Libro no encontrado" });
@@ -59,7 +61,8 @@ export async function crearLibro(req, res) {
     // Los datos ya vienen validados por el middleware validarLibro
     const { titulo, descripcion, autor, editorial, anioPublicacion } = req.body;
 
-    const libro = await prisma.libro.create({
+    // Cambiado de prisma.libro a prisma.Libro
+    const libro = await prisma.Libro.create({
       data: {
         titulo: titulo.trim(),
         descripcion:
@@ -89,7 +92,8 @@ export async function actualizarLibro(req, res) {
       return res.status(400).json({ error: "El id debe ser un numero entero" });
     }
 
-    const existente = await prisma.libro.findUnique({ where: { id } });
+    // Cambiado de prisma.libro a prisma.Libro
+    const existente = await prisma.Libro.findUnique({ where: { id } });
 
     if (!existente) {
       return res.status(404).json({ error: "Libro no encontrado" });
@@ -124,7 +128,6 @@ export async function actualizarLibro(req, res) {
       datos.reservado = reservado;
     }
 
-    // autor y editorial son obligatorios en la BD: no se pueden dejar vacíos
     if (autor !== undefined) {
       if (typeof autor !== "string" || !autor.trim()) {
         return res.status(400).json({ error: "El autor no puede estar vacío" });
@@ -161,7 +164,8 @@ export async function actualizarLibro(req, res) {
       });
     }
 
-    const libro = await prisma.libro.update({
+    // Cambiado de prisma.libro a prisma.Libro
+    const libro = await prisma.Libro.update({
       where: { id },
       data: datos
     });
@@ -180,13 +184,15 @@ export async function eliminarLibro(req, res) {
       return res.status(400).json({ error: "El id debe ser un numero entero" });
     }
 
-    const existente = await prisma.libro.findUnique({ where: { id } });
+    // Cambiado de prisma.libro a prisma.Libro
+    const existente = await prisma.Libro.findUnique({ where: { id } });
 
     if (!existente) {
       return res.status(404).json({ error: "Libro no encontrado" });
     }
 
-    await prisma.libro.delete({ where: { id } });
+    // Cambiado de prisma.libro a prisma.Libro
+    await prisma.Libro.delete({ where: { id } });
 
     res.status(204).send();
   } catch (error) {
